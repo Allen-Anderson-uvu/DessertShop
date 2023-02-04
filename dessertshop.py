@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from receipt import *
 
 class DessertItem(ABC):
     def __init__(self, name=str):
@@ -77,19 +78,28 @@ class Order:
         return round(total_tax, 2)
 
 def main():
-    gummybears = Candy("Gummy Bears", 2.3, 1.25)
-    chocolate_cookies = Cookie("Chocolate Cookies", 12, 2.5)
-    vanilla_icecream = IceCream("Vanilla Ice Cream", 3, 1.75)
-    strawberry_sundae = Sundae("Strawberry Sundae", 2, 2, "Strawberry Topping", 0.5)
+     # Create an instance of the Order class
+    my_order = Order()
 
-    order = Order()
-    order.add_item(gummybears)
-    order.add_item(chocolate_cookies)
-    order.add_item(vanilla_icecream)
-    order.add_item(strawberry_sundae)
+    # Add items to the order
+    # Add items to the order
+    my_order.add_item(Candy("Candy Corn", 1, 3.0))
+    my_order.add_item(Candy("Gummy Bears", 2, 4.0))
+    my_order.add_item(Cookie("Chocolate Chip", 2, 2.0))
+    my_order.add_item(Cookie("Pistachio Cookie", 1, 3.0))
+    my_order.add_item(IceCream("Vanilla", 3, 2.0))
+    my_order.add_item(Cookie("Oatmeal Raisin", 2, 5.0))
 
-    print(order.order_cost())
-    print(order.order_tax)
+
+
+
+    # Calculate the cost and tax of the order
+    cost = round(my_order.order_cost(), 2)
+    tax = round(my_order.order_tax(), 2)
+    total_cost = cost + tax
+
+    make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
+
 
 
 if __name__ == "__main__":
