@@ -2,7 +2,7 @@ from dessertshop import *
 
 #Test the datatype for DessertItems
 def datatype(x):
-    myfood = DessertItem(x)
+    myfood = Candy(x, 1.2, 2.5)
     return myfood.name
 
 def test_datatype():
@@ -25,6 +25,20 @@ def checkprice(x):
 
 def test_checkprice():
     assert checkprice(1.2) == 3.45 
+
+def checktotalprice(x):
+    mycandy = Candy('M&M', 1, x)
+    return mycandy.calculate_cost()
+
+def test_checktotalprice():
+    assert checktotalprice(100) == 100
+
+def taxes(x):
+    mycandy = Candy('M&M', 1, x)
+    return mycandy.calculate_tax()
+
+def check_taxes():
+    assert taxes(100) == .75
     
 
 #test the cookie constructors
@@ -45,6 +59,19 @@ def cookieprice(x):
 def test_cookieprice():
     assert cookieprice(5.5) == 11.0
 
+def checkcookieprice(x):
+    mycookie = Cookie('Peanut Butter', 12, x)
+    return mycookie.calculate_cost()
+
+def test_checkcookieprice():
+    assert checkcookieprice(10) == 10
+
+def checkcookietax(x):
+    mycookie = Cookie('Peanut Butter', 12, x)
+    return mycookie.calculate_tax()
+
+def test_checkcookietax():
+    assert checkcookietax(100) == 7.25
 #Test IceCream constructors
 
 def countscoops(x):
@@ -63,6 +90,20 @@ def checkprice(x):
 def test_checkprice():
     assert checkprice(2.5) == 4.0
 
+def calc_icecream_price(x):
+    mycone = IceCream('Vanilla', 10, x)
+    return mycone.calculate_cost()
+
+def test_calc_icecream_price():
+    assert calc_icecream_price(10) == 100
+
+def icecream_tax_check(x):
+    mycone = IceCream('Vanilla', 10, x)
+    return mycone.calculate_tax()
+
+def test_icecream_tax_check():
+    assert icecream_tax_check(10) == 7.25
+
 #Test Sundae constructors
 def sundaetopping(x):
     mysundae = Sundae('3 scoop sundae', 2, 2.24, x, .75)
@@ -78,3 +119,17 @@ def pricecheck(x):
 
 def test_pricecheck():
     assert pricecheck(1) == 1.75
+
+def calculate_sundae_price(x):
+    mysundae = Sundae('Chocolate', 10, 9, 'sprinkles', x)
+    return mysundae.calculate_cost()
+
+def test_calculate_sundae_price():
+    assert calculate_sundae_price(10) == 100
+
+def calculate_sundae_tax(x):
+    mysundae = Sundae('Chocolate', 10, 9, 'sprinkles', x)
+    return mysundae.calculate_tax()
+
+def test_calculate_sundae_tax():
+    assert calculate_sundae_tax(10) == 7.25

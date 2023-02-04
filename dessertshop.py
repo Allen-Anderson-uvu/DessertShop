@@ -14,7 +14,7 @@ class DessertItem(ABC):
         pass
 
     def calculate_tax(self):
-        return self.calculate_cost() * (self.tax_percent / 100)
+        return round(self.calculate_cost() * (self.tax_percent / 100), 2)
 
 class Candy(DessertItem):
     def __init__(self, name, candy_weight= float, price_per_pound=float):
