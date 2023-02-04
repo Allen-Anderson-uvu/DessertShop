@@ -122,9 +122,9 @@ def user_prompt_candy(my_order):
 
     weight = input('How many lbs of candy would you like? ')
     weight = float(weight)
-    print('Adding', weight, 'lbs of', candy, 'to your order.')
+    print(f'Adding {weight} lbs of {candy} to your order.'.format(weight, candy))
 
-    my_order.append(('Candy', candy, price, weight))
+    my_order.append(('Candy', candy, weight, price))
 
 
 
@@ -150,7 +150,7 @@ def user_prompt_cookie(my_order):
     amount = input('How many cookies would you like? ')
     amount = int(amount)
 
-    my_order.append(('Cookie', cookie, price, amount))
+    my_order.append(('Cookie', cookie, amount, price))
 
 def user_prompt_icecream(my_order):
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
@@ -166,38 +166,82 @@ def user_prompt_icecream(my_order):
         price = 4.5
     elif icecream == '':
         main_menu(my_order)
+    else:
+        print('Improper syntax: please use the provided menu')
+
+    scoops = input('How many scoops would you like? ')
+    scoops = int(scoops)
+
+    my_order.append(('Ice Cream', icecream, scoops, price))
+    print(f'Adding a {icecream} flavored Ice Cream with {scoops} scoops'.format(icecream, scoops))
     
-def user_prompt_sundae():
-    pass
+def user_prompt_sundae(my_order):
+    print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
+    icecream = input('Which flavor would you like to try? ')
+    if input == '1':
+        icecream = 'Vanilla Ice Cream'
+        price = 2.25
+    elif input == '2':
+        icecream = 'Chocolate Ice Cream'
+        price = 2.25
+    elif input == '3':
+        icecream = 'Vanchoco Ice Cream'
+        price = 4.5
+    elif icecream == '':
+        main_menu(my_order)
+    else:
+        print('Improper syntax: please use the provided menu')
+
+    scoops = input('How many scoops would you like? ')
+    scoops = int(scoops)
+
+    
+    print('1. Sprinkles (.25 cents) 2. Caramel (.50 cents) 3. Gummy Bears (.30 cents)')
+    topping = input('What topping would you like?')
+    
+    if topping == '1':
+        topping = 'Sprinkles'
+        topprice = .25
+    elif topping == '2':
+        topping == "Caramel"
+        topprice = .50
+    elif topping == '3':
+        topping = 'Gummy Bears'
+        topprice = .30
+    elif topping == '':
+        main_menu()
+    else:
+        print('Invalid input: Please use the menu options')
+
+    print(f'Adding a {icecream} flavored sundae with {topping} on top'.format(icecream, topping))
+
+    my_order.append(('Sundae', icecream, scoops, price, topping, topprice))
+    
+    
 
 
 def main():
     my_order = []
-
     main_menu(my_order)
-    print(my_order)
 
-     # Create an instance of the Order class
-    # my_order = Order()
-
-    # Add items to the order
-    # Add items to the order
-    # my_order.add_item(Candy("Candy Corn", 1, 3.0))
-    # my_order.add_item(Candy("Gummy Bears", 2, 4.0))
-    # my_order.add_item(Cookie("Chocolate Chip", 2, 2.0))
-    # my_order.add_item(Cookie("Pistachio Cookie", 1, 3.0))
-    # my_order.add_item(IceCream("Vanilla", 3, 2.0))
-    # my_order.add_item(Cookie("Oatmeal Raisin", 2, 5.0))
+    new_order = Order()
+    for item in my_order:
+        if item[0] == 'Candy':
+            new_order.add_item(Candy(item[1], item[2], item[3]))
+        elif item[0] == 'Cookie':
+            new_order.add_item(Cookie(item[1], item[2], item[3]))
+        elif item[0] == 'Ice Cream':
+            new_order.add_item(IceCream, item[1], item[2], item[3])
+        elif item[0] == 'Sundae':
+            new_order.add_item(Sundae(item[1], item[2], item[3], item[4], item[5]))
 
 
+    # Calculate the cost and tax of the order
+    cost = round(new_order.order_cost(), 2)
+    tax = round(new_order.order_tax(), 2)
+    total_cost = cost + tax
 
-
-    # # Calculate the cost and tax of the order
-    # cost = round(my_order.order_cost(), 2)
-    # tax = round(my_order.order_tax(), 2)
-    # total_cost = cost + tax
-
-    # make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
+    make_receipt(new_order.order, "receipt.pdf", cost, total_cost)
 
 
 
