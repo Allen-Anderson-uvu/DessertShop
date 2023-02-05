@@ -29,7 +29,7 @@ def make_receipt(order, filename, total_cost, total_tax):
     style = TableStyle(
 	[
 		( "BOX" , ( 0, 0 ), ( -1, -1 ), 1 , colors.black ),
-		( "GRID" , ( 0, 0 ), ( gridlength, gridlength ), 1 , colors.black ),
+		( "GRID" , ( 0, 0 ), ( 4, gridlength ), 1 , colors.black ),
 		( "BACKGROUND" , ( 0, 0 ), ( 3, 0 ), colors.gray ),
 		( "TEXTCOLOR" , ( 0, 0 ), ( -1, 0 ), colors.whitesmoke ),
 		( "ALIGN" , ( 0, 0 ), ( -1, -1 ), "CENTER" ),

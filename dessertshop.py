@@ -98,8 +98,11 @@ def main_menu(my_order):
             user_prompt_sundae(my_order)
         elif choice == '':
             continue_order = False
+        elif choice == '5':
+            print(my_order)
         else:
             print("Invalid input, please use the provided interface.")
+
 
 def user_prompt_candy(my_order):
     print('1: Butterscotch ($2.25 per lbs) 2: Caramel (.50 per lbs) 3: m&m ($4.00 per lbs)')
@@ -142,7 +145,7 @@ def user_prompt_cookie(my_order):
         cookie = "Peanut Butter Cookie"
         price = 2.0
     elif cookie == "":
-        main_menu()
+        user_prompt_cookie(my_order)
     else:
         print("Invalid syntax:  Please use the options provided")
         user_prompt_cookie(my_order)
@@ -155,19 +158,21 @@ def user_prompt_cookie(my_order):
 def user_prompt_icecream(my_order):
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
     icecream = input('Which flavor would you like to try? ')
-    if input == '1':
+    if icecream == '1':
         icecream = 'Vanilla Ice Cream'
         price = 2.25
-    elif input == '2':
+    elif icecream == '2':
         icecream = 'Chocolate Ice Cream'
         price = 2.25
-    elif input == '3':
+    elif icecream == '3':
         icecream = 'Vanchoco Ice Cream'
         price = 4.5
     elif icecream == '':
         main_menu(my_order)
     else:
         print('Improper syntax: please use the provided menu')
+        print(type(icecream))
+        user_prompt_icecream(my_order)
 
     scoops = input('How many scoops would you like? ')
     scoops = int(scoops)
@@ -178,19 +183,20 @@ def user_prompt_icecream(my_order):
 def user_prompt_sundae(my_order):
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
     icecream = input('Which flavor would you like to try? ')
-    if input == '1':
+    if icecream == '1':
         icecream = 'Vanilla Ice Cream'
         price = 2.25
-    elif input == '2':
+    elif icecream == '2':
         icecream = 'Chocolate Ice Cream'
         price = 2.25
-    elif input == '3':
+    elif icecream == '3':
         icecream = 'Vanchoco Ice Cream'
         price = 4.5
     elif icecream == '':
         main_menu(my_order)
     else:
         print('Improper syntax: please use the provided menu')
+        user_prompt_sundae(my_order)
 
     scoops = input('How many scoops would you like? ')
     scoops = int(scoops)
@@ -231,7 +237,9 @@ def main():
         elif item[0] == 'Cookie':
             new_order.add_item(Cookie(item[1], item[2], item[3]))
         elif item[0] == 'Ice Cream':
-            new_order.add_item(IceCream, item[1], item[2], item[3])
+            print(item)
+            new_order.add_item(IceCream(item[1], item[2], item[3]))
+            
         elif item[0] == 'Sundae':
             new_order.add_item(Sundae(item[1], item[2], item[3], item[4], item[5]))
 
