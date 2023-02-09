@@ -228,8 +228,11 @@ def user_prompt_sundae(my_order):
 
 def main():
     my_order = []
-    main_menu(my_order)
-
+    try:
+        main_menu(my_order)
+    except:
+        main_menu(my_order)
+        
     new_order = Order()
     for item in my_order:
         if item[0] == 'Candy':
