@@ -28,7 +28,7 @@ class Candy(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.candy_weight}lbs ${self.price_per_pound}/lbs ${cost} ${tax}"
+        return f"{self.name}           {self.candy_weight}lbs    ${self.price_per_pound}/lbs    ${cost}    ${tax}"
 
 
 class Cookie(DessertItem):
@@ -43,7 +43,7 @@ class Cookie(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.cookie_quantity} cookies ${self.price_per_dozen} ${cost} ${tax}"
+        return f"{self.name} {self.cookie_quantity}   cookies ${self.price_per_dozen}   ${cost}   ${tax}"
 
 class IceCream(DessertItem):
     def __init__(self, name, scoop_count=int, price_per_scoop=float):
@@ -57,7 +57,7 @@ class IceCream(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.scoop_count} scoops {self.price_per_scoop}/scoop ${cost} ${tax}"
+        return f"{self.name} {self.scoop_count} scoops   {self.price_per_scoop}/scoop    ${cost}   ${tax}"
     
 
 class Sundae(IceCream):
@@ -98,7 +98,7 @@ class Order:
 
     def print_order(self):
         print("_____________________________________________________")
-        print("Name        Quantity  Unit Price  Cost  Tax")
+        print("Name        Quantity    Unit    Price    Cost    Tax")
         print("_____________________________________________________")    
 
         for item in self.order:
@@ -143,7 +143,7 @@ def user_prompt_candy(my_order):
         candy = 'Caramel'
         price = .5
     elif candy == '3':
-        candy == "m&m's"
+        candy = "m&m's"
         price = 4.0
     elif candy == "":
         print('Returning to main menu')
