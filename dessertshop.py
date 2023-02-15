@@ -24,6 +24,9 @@ class Candy(DessertItem):
 
     def calculate_cost(self):
         return self.candy_weight * self.price_per_pound
+    
+    def __str__(self):
+        return f"{self.name} {self.candy_weight}lbs ${self.price_per_pound}/lbs "
 
 
 class Cookie(DessertItem):
@@ -77,7 +80,7 @@ class Order:
 
         return round(total_tax, 2)
 
-def main_menu(my_order):
+def main_menu(my_order: Order) -> None:
     continue_order = True
     while continue_order == True:
         print('Type the number of the option you would like to choose: ')
@@ -86,6 +89,7 @@ def main_menu(my_order):
         print('3: IceCream')
         print('4: Sundae')
         print('5: Total Order So Far')
+        print('Hit enter with no input to print your receipt')
         choice = input('Choose an option: ')
 
         if choice == '1':
@@ -127,7 +131,8 @@ def user_prompt_candy(my_order):
     weight = float(weight)
     print(f'Adding {weight} lbs of {candy} to your order.'.format(weight, candy))
 
-    my_order.append(('Candy', candy, weight, price))
+    candy_item = Candy(candy,weight, price )
+    my_order.add_item(candy_item)
 
 
 
@@ -153,7 +158,8 @@ def user_prompt_cookie(my_order):
     amount = input('How many cookies would you like? ')
     amount = int(amount)
 
-    my_order.append(('Cookie', cookie, amount, price))
+    cookie_item = Cookie(cookie, amount, price)
+    my_order.add_item(cookie_item)
 
 def user_prompt_icecream(my_order):
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
@@ -177,7 +183,8 @@ def user_prompt_icecream(my_order):
     scoops = input('How many scoops would you like? ')
     scoops = int(scoops)
 
-    my_order.append(('Ice Cream', icecream, scoops, price))
+    icecream_item = IceCream(icecream, scoops, price)
+    my_order.add_item(icecream_item)
     print(f'Adding a {icecream} flavored Ice Cream with {scoops} scoops'.format(icecream, scoops))
     
 def user_prompt_sundae(my_order):
@@ -221,38 +228,28 @@ def user_prompt_sundae(my_order):
 
     print(f'Adding a {icecream} flavored sundae with {topping} on top'.format(icecream, topping))
 
-    my_order.append(('Sundae', icecream, scoops, price, topping, topprice))
+    sundae_item = Sundae(icecream, scoops, price, topping, topprice)
+    my_order.add_item(sundae_item)
     
     
 
 
 def main():
-    my_order = []
+   
+    my_order = Order()
+
     try:
         main_menu(my_order)
     except:
         main_menu(my_order)
         
-    new_order = Order()
-    for item in my_order:
-        if item[0] == 'Candy':
-            new_order.add_item(Candy(item[1], item[2], item[3]))
-        elif item[0] == 'Cookie':
-            new_order.add_item(Cookie(item[1], item[2], item[3]))
-        elif item[0] == 'Ice Cream':
-            print(item)
-            new_order.add_item(IceCream(item[1], item[2], item[3]))
-            
-        elif item[0] == 'Sundae':
-            new_order.add_item(Sundae(item[1], item[2], item[3], item[4], item[5]))
+    for item in my_order.order:
+        print(item)
 
-
-    # Calculate the cost and tax of the order
-    cost = round(new_order.order_cost(), 2)
-    tax = round(new_order.order_tax(), 2)
+    cost = round(my_order.order_cost(), 2)
+    tax = round(my_order.order_tax(), 2)
     total_cost = cost + tax
-
-    make_receipt(new_order.order, "receipt.pdf", cost, total_cost)
+    make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
 
 
 
