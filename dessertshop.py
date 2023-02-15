@@ -26,7 +26,9 @@ class Candy(DessertItem):
         return self.candy_weight * self.price_per_pound
     
     def __str__(self):
-        return f"{self.name} {self.candy_weight}lbs ${self.price_per_pound}/lbs "
+        cost = self.calculate_cost()
+        tax = self.calculate_tax()
+        return f"{self.name} {self.candy_weight}lbs ${self.price_per_pound}/lbs ${cost} ${tax}"
 
 
 class Cookie(DessertItem):
@@ -38,6 +40,11 @@ class Cookie(DessertItem):
     def calculate_cost(self):
         return self.cookie_quantity / 12 * self.price_per_dozen
 
+    def __str__(self):
+        cost = self.calculate_cost()
+        tax = self.calculate_tax()
+        return f"{self.name} {self.cookie_quantity} cookies ${self.price_per_dozen} ${cost} ${tax}"
+
 class IceCream(DessertItem):
     def __init__(self, name, scoop_count=int, price_per_scoop=float):
         super().__init__(name)
@@ -46,6 +53,11 @@ class IceCream(DessertItem):
 
     def calculate_cost(self):
         return self.scoop_count * self.price_per_scoop
+
+    def __str__(self):
+        cost = self.calculate_cost()
+        tax = self.calculate_tax()
+        return f"{self.name} {self.scoop_count} scoops {self.price_per_scoop}/scoop ${cost} ${tax}"
     
 
 class Sundae(IceCream):
@@ -57,6 +69,10 @@ class Sundae(IceCream):
     def calculate_cost(self):
         return super().calculate_cost() + self.topping_price
 
+    def __str__(self):
+        cost = self.calculate_cost()
+        tax = self.calculate_tax()
+        return f"{self.name} {self.scoop_count} scoops ${self.price_per_scoop}/scoop {self.topping_name} ${self.topping_price} ${cost} ${tax}"
 class Order:
     def __init__(self):
         self.order = []
@@ -79,6 +95,15 @@ class Order:
             total_tax += item.calculate_tax()
 
         return round(total_tax, 2)
+
+    def print_order(self):
+        print("_____________________________________________________")
+        print("Name        Quantity  Unit Price  Cost  Tax")
+        print("_____________________________________________________")    
+
+        for item in self.order:
+            print(item)
+            print('')
 
 def main_menu(my_order: Order) -> None:
     continue_order = True
@@ -243,8 +268,7 @@ def main():
     except:
         main_menu(my_order)
         
-    for item in my_order.order:
-        print(item)
+    my_order.print_order()
 
     cost = round(my_order.order_cost(), 2)
     tax = round(my_order.order_tax(), 2)
