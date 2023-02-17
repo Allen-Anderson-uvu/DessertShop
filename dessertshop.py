@@ -5,6 +5,7 @@ class DessertItem(ABC):
     def __init__(self, name=str):
         self.name = name
         self.tax_percent = 7.25
+        self.packaging = None
 
     def __str__(self):
         return self.name
@@ -21,6 +22,7 @@ class Candy(DessertItem):
         super().__init__(name)
         self.candy_weight = candy_weight
         self.price_per_pound = price_per_pound
+        self.packaging = "Bag"
 
     def calculate_cost(self):
         return self.candy_weight * self.price_per_pound
@@ -28,7 +30,8 @@ class Candy(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name}           {self.candy_weight}lbs    ${self.price_per_pound}/lbs    ${cost}    ${tax}"
+        return f"{self.name} ({self.packaging})\n"   \
+            f"            {self.candy_weight}lbs         ${self.price_per_pound:.2f}/lbs    ${cost:.2f}   ${tax:.2f}"
 
 
 class Cookie(DessertItem):
@@ -36,6 +39,7 @@ class Cookie(DessertItem):
         super().__init__(name)
         self.cookie_quantity = cookie_quantity
         self.price_per_dozen = price_per_dozen
+        self.packaging = "Box"
 
     def calculate_cost(self):
         return self.cookie_quantity / 12 * self.price_per_dozen
@@ -43,13 +47,15 @@ class Cookie(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.cookie_quantity}   cookies ${self.price_per_dozen}   ${cost}   ${tax}"
+        return f"{self.name} {self.packaging}\n" \
+            f"            {self.cookie_quantity} cookies    ${self.price_per_dozen:.2f}/dozen    ${cost:.2f}    ${tax:.2f}"
 
 class IceCream(DessertItem):
     def __init__(self, name, scoop_count=int, price_per_scoop=float):
         super().__init__(name)
         self.scoop_count = scoop_count
         self.price_per_scoop = price_per_scoop
+        self.packaging = "Bowl"
 
     def calculate_cost(self):
         return self.scoop_count * self.price_per_scoop
@@ -57,7 +63,8 @@ class IceCream(DessertItem):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.scoop_count} scoops   {self.price_per_scoop}/scoop    ${cost}   ${tax}"
+        return f"{self.name} {self.packaging}\n" \
+            f"             {self.scoop_count} scoops     ${self.price_per_scoop:.2f}/scoop    ${cost:.2f}   ${tax:.2f}"
     
 
 class Sundae(IceCream):
@@ -65,6 +72,7 @@ class Sundae(IceCream):
         super().__init__(name, scoop_count, price_per_scoop)
         self.topping_name = topping_name
         self.topping_price = topping_price
+        self.packaging = "Boat"
 
     def calculate_cost(self):
         return super().calculate_cost() + self.topping_price
@@ -72,7 +80,10 @@ class Sundae(IceCream):
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
-        return f"{self.name} {self.scoop_count} scoops ${self.price_per_scoop}/scoop {self.topping_name} ${self.topping_price} ${cost} ${tax}"
+        return f"{self.name} {self.packaging}\n" \
+            f"             {self.scoop_count} scoops     ${self.price_per_scoop:.2f}/scoop    ${cost:.2f}   ${tax:.2f}"
+
+
 class Order:
     def __init__(self):
         self.order = []
@@ -98,7 +109,7 @@ class Order:
 
     def print_order(self):
         print("_____________________________________________________")
-        print("Name        Quantity    Unit    Price    Cost    Tax")
+        print("Name        Quantity      Price         Cost     Tax")
         print("_____________________________________________________")    
 
         for item in self.order:
