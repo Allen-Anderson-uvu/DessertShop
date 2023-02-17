@@ -133,3 +133,13 @@ def calculate_sundae_tax(x):
 
 def test_calculate_sundae_tax():
     assert calculate_sundae_tax(10) == 7.25
+
+#Test freeze attribute for Cookie, IceCream, and Sundae
+
+def check_chill():
+    mycookie = Cookie('Chocolate Chip', 3, 5.5)
+    mycookie.chill()
+    return mycookie._temperature
+
+def test_check_freeze():
+    assert check_chill == "Thawing"

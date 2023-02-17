@@ -26,6 +26,7 @@ class Order:
         return round(total_tax, 2)
 
     def print_order(self):
+        print("-----------------------RECEIPT-----------------------")
         print("_____________________________________________________")
         print("Name        Quantity      Price         Cost     Tax")
         print("_____________________________________________________")    
@@ -36,6 +37,7 @@ class Order:
 
 def main_menu(my_order: Order) -> None:
     continue_order = True
+
     while continue_order == True:
         print('Type the number of the option you would like to choose: ')
         print('1: Candy')

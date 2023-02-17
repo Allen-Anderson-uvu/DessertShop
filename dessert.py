@@ -1,4 +1,17 @@
 from abc import ABC, abstractmethod
+from typing import Protocol
+
+class Freeze(Protocol):
+    _temperature = "thawing"
+
+    def chill(self):
+        self._temperature = "chilling"
+
+    def thaw(self):
+        self._temperature = "thawing"
+
+    def get_temperature(self) -> str:
+        return getattr(self, '_temperature', 'thawing')
 
 class DessertItem(ABC):
     def __init__(self, name=str):
@@ -33,13 +46,19 @@ class Candy(DessertItem):
             f"            {self.candy_weight}lbs         ${self.price_per_pound:.2f}/lbs    ${cost:.2f}   ${tax:.2f}"
 
 
-class Cookie(DessertItem):
+class Cookie(DessertItem, Freeze):
     def __init__(self, name, cookie_quantity=int, price_per_dozen=float):
         super().__init__(name)
         self.cookie_quantity = cookie_quantity
         self.price_per_dozen = price_per_dozen
         self.packaging = "Box"
+        self._temperature = "thawing"
 
+    def chill(self):
+        self._temperature = "chilling"
+    def thaw(self):
+        self._temperature = "thawing"
+        
     def calculate_cost(self):
         return self.cookie_quantity / 12 * self.price_per_dozen
 
@@ -49,7 +68,7 @@ class Cookie(DessertItem):
         return f"{self.name} {self.packaging}\n" \
             f"            {self.cookie_quantity} cookies    ${self.price_per_dozen:.2f}/dozen    ${cost:.2f}    ${tax:.2f}"
 
-class IceCream(DessertItem):
+class IceCream(DessertItem, Freeze):
     def __init__(self, name, scoop_count=int, price_per_scoop=float):
         super().__init__(name)
         self.scoop_count = scoop_count
@@ -77,15 +96,6 @@ class Sundae(IceCream):
     def calculate_cost(self):
         return super().calculate_cost() + self.topping_price
     
-    def chill(self):
-        self.item_temperature = "Chilling"
-
-    def thaw(self):
-        self.item_temperature = "Thawing"
-
-    def temperature(self):
-        return self.item_temperature
-
     def __str__(self):
         cost = self.calculate_cost()
         tax = self.calculate_tax()
