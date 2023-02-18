@@ -1,17 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Protocol
-
-class Freeze(Protocol):
-    _temperature = "thawing"
-
-    def chill(self):
-        self._temperature = "chilling"
-
-    def thaw(self):
-        self._temperature = "thawing"
-
-    def get_temperature(self) -> str:
-        return getattr(self, '_temperature', 'thawing')
+from freezer import Freezer, Freeze
 
 class DessertItem(ABC):
     def __init__(self, name=str):
@@ -52,12 +40,6 @@ class Cookie(DessertItem, Freeze):
         self.cookie_quantity = cookie_quantity
         self.price_per_dozen = price_per_dozen
         self.packaging = "Box"
-        self._temperature = "thawing"
-
-    def chill(self):
-        self._temperature = "chilling"
-    def thaw(self):
-        self._temperature = "thawing"
         
     def calculate_cost(self):
         return self.cookie_quantity / 12 * self.price_per_dozen

@@ -1,4 +1,6 @@
 from dessertshop import *
+from freezer import *
+from dessert import *
 
 #Test the datatype for DessertItems
 def datatype(x):
@@ -142,4 +144,47 @@ def check_chill():
     return mycookie._temperature
 
 def test_check_freeze():
-    assert check_chill == "Thawing"
+    assert check_chill() == "chilling"
+
+def check_thaw():
+    mycookie = Cookie('Chocolate Chip', 3, 5.5)
+    mycookie.thaw()
+    return mycookie._temperature
+
+def test_check_thaw():
+    assert check_thaw() == "thawing"
+
+#check freeze and thaw for icecream
+
+def check_chill():
+    myicecream = IceCream('Rocky Road', 3, .5)
+    myicecream.chill()
+    return myicecream._temperature
+
+def test_check_freeze():
+    assert check_chill() == "chilling"
+
+def check_thaw():
+    myicecream = IceCream('Rocky Road', 3, .5)
+    myicecream.thaw()
+    return myicecream._temperature
+
+def test_check_thaw():
+    assert check_thaw() == "thawing"
+
+#check freeze and thaw for sundae
+def check_chill():
+    mysundae = Sundae('3 scoop sundae', 2, 2.24, 'sprinkles', .75)
+    mysundae.chill()
+    return mysundae._temperature
+
+def test_check_freeze():
+    assert check_chill() == "chilling"
+
+def check_thaw():
+    mysundae = Sundae('3 scoop sundae', 2, 2.24, 'sprinkles', .75)
+    mysundae.thaw()
+    return mysundae._temperature
+
+def test_check_thaw():
+    assert check_thaw() == "thawing"

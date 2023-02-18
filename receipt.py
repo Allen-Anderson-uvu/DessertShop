@@ -9,9 +9,9 @@ from reportlab.lib.styles import ParagraphStyle
 def make_receipt(order, filename, total_cost, total_tax):
     data = [("Item", " ","Price", "Tax")]
     for item in order:
-        item_data = [item.name, " ", round(item.calculate_cost(), 2), round(item.calculate_tax(), 2)]
+        item_data = [item.name, " ", "%.2f" % item.calculate_cost(), "%.2f" % item.calculate_tax()]
         data.append(item_data)
-    data.append(["Order Price: ", round(total_cost, 2), 'Total Cost: ' , round(total_tax, 2)])
+    data.append(["Order Price: ", "%.2f" % total_cost, 'Total Cost: ' , "%.2f" % total_tax])
 
     gridlength = len(data) - 2
     

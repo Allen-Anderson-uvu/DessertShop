@@ -1,8 +1,10 @@
 from receipt import *
 from dessert import DessertItem, Candy, Cookie, IceCream, Sundae
+from freezer import Freezer, Freeze
 
 
 class Order:
+    # Class that represents an order of items from the dessert shop
     def __init__(self):
         self.order = []
 
@@ -34,8 +36,29 @@ class Order:
         for item in self.order:
             print(item)
             print('')
+        print("_____________________________________________________")
+        print(f"Total Cost: ${self.order_cost():.2f}   Total Tax: ${self.order_tax():.2f}")
 
-def main_menu(my_order: Order) -> None:
+# Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
+def stock_freezer():
+    freezer = Freezer()
+    for i in range(10):
+        freezer.add_2_freezer(IceCream('Vanilla', 3, .5))
+        freezer.add_2_freezer(IceCream('Chocolate', 3, .5))
+        freezer.add_2_freezer(IceCream('Vanchoco', 3, .5))
+        freezer.add_2_freezer(Cookie('Chocolate Chip', 3, 5.5))
+        freezer.add_2_freezer(Cookie('Peanut Butter', 3, 5.5))
+        freezer.add_2_freezer(Cookie('Pecan', 3, 5.5))
+        freezer.add_2_freezer(Sundae('Vanilla', 3, .5, 'Sprinkles'))
+        freezer.add_2_freezer(Sundae('Chocolate', 3, .5, 'Caramel'))
+        freezer.add_2_freezer(Sundae('Vanchoco', 3, .5, 'Gummy Bears'))
+    #Chill items in the freezer
+    for i in freezer.my_freezer:
+        i.chill()
+    return freezer
+
+
+def main_menu(my_order: Order, freezer) -> None:
     continue_order = True
 
     while continue_order == True:
@@ -51,11 +74,11 @@ def main_menu(my_order: Order) -> None:
         if choice == '1':
             user_prompt_candy(my_order)
         elif choice == '2':
-            user_prompt_cookie(my_order)
+            user_prompt_cookie(my_order, freezer)
         elif choice == '3':
-            user_prompt_icecream(my_order)
+            user_prompt_icecream(my_order, freezer)
         elif choice == '4':
-            user_prompt_sundae(my_order)
+            user_prompt_sundae(my_order, freezer)
         elif choice == '':
             continue_order = False
         elif choice == '5':
@@ -65,6 +88,7 @@ def main_menu(my_order: Order) -> None:
 
 
 def user_prompt_candy(my_order):
+    #Prompts user for candy type and amount
     print('1: Butterscotch ($2.25 per lbs) 2: Caramel (.50 per lbs) 3: m&m ($4.00 per lbs)')
     candy = input("What kind of candy would you like? :")
     if candy == '1':
@@ -92,7 +116,8 @@ def user_prompt_candy(my_order):
 
 
 
-def user_prompt_cookie(my_order):
+def user_prompt_cookie(my_order, freezer):
+    #Prompts user for cookie type and amount
     print('1. Chocolate Chip ($3.00 per dozen) 2. Pecan ($3.25 per dozen) 3. Peanut Butter ($2.00 per dozen)')
     cookie = input('Which cookie would you like to order? ')
 
@@ -113,11 +138,24 @@ def user_prompt_cookie(my_order):
 
     amount = input('How many cookies would you like? ')
     amount = int(amount)
-
     cookie_item = Cookie(cookie, amount, price)
-    my_order.add_item(cookie_item)
+    #Takes item out of the freezer or makes it from scratch if it is not in the freezer
+    cookie_found = False
+    for item in freezer.my_freezer:
+        if item.name == cookie_item.name:
+            item.thaw()
+            freezer.my_freezer.remove(item)
+            my_order.add_item(item)
+            cookie_found = True
+            break
 
-def user_prompt_icecream(my_order):
+    if not cookie_found:
+        my_order.add_item(cookie_item)
+
+
+
+def user_prompt_icecream(my_order, freezer):
+    #Prompts user for icecream flavor and amount
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
     icecream = input('Which flavor would you like to try? ')
     if icecream == '1':
@@ -140,10 +178,23 @@ def user_prompt_icecream(my_order):
     scoops = int(scoops)
 
     icecream_item = IceCream(icecream, scoops, price)
-    my_order.add_item(icecream_item)
+    #Take item out of the freezer or makes it from scratch if it is not in the freezer
+    icecream_found = False
+    for item in freezer.my_freezer:
+        if item.name == icecream_item.name:
+            item.thaw()
+            freezer.my_freezer.remove(item)
+            my_order.add_item(item)
+            icecream_found = True
+            break
+    
+    if not icecream_found:
+        my_order.add_item(icecream_item)
+
     print(f'Adding a {icecream} flavored Ice Cream with {scoops} scoops'.format(icecream, scoops))
     
-def user_prompt_sundae(my_order):
+def user_prompt_sundae(my_order, freezer):
+    #This function is a little different than the others because it is a combination of two other items, ice cream and toppings
     print('1. Vanilla ($2.25 per scoop) 2. Chocolate ($2.25 per scoop) 3. Vanchoco ($4.50 per scoop)')
     icecream = input('Which flavor would you like to try? ')
     if icecream == '1':
@@ -185,19 +236,29 @@ def user_prompt_sundae(my_order):
     print(f'Adding a {icecream} flavored sundae with {topping} on top'.format(icecream, topping))
 
     sundae_item = Sundae(icecream, scoops, price, topping, topprice)
-    my_order.add_item(sundae_item)
+    #Take item out of the freezer or makes it from scratch if it is not in the freezer, match topping to ice cream
+    sundae_found = False
+    for item in freezer.my_freezer:
+        if item.name == sundae_item.name and item.topping == sundae_item.topping:
+            item.thaw()
+            freezer.my_freezer.remove(item)
+            my_order.add_item(item)
+            sundae_found = True
+            break
     
-    
-
+    if not sundae_found:
+        my_order.add_item(sundae_item)
 
 def main():
+
+    freezer = stock_freezer()
    
     my_order = Order()
 
     try:
-        main_menu(my_order)
+        main_menu(my_order, freezer)
     except:
-        main_menu(my_order)
+        main_menu(my_order, freezer)
         
     my_order.print_order()
 
