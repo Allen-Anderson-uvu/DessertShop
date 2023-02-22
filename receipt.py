@@ -40,4 +40,3 @@ def make_receipt(order, filename, total_cost, total_tax):
     table = Table( data , style = style )
     pdf.build([title, Spacer(1, 20), table])
 
-

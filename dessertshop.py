@@ -1,6 +1,8 @@
 from receipt import *
 from dessert import DessertItem, Candy, Cookie, IceCream, Sundae
 from freezer import Freezer, Freeze
+from payment import Payment
+
 
 
 class Order:
@@ -28,6 +30,7 @@ class Order:
         return round(total_tax, 2)
 
     def print_order(self):
+        payment = self.choose_payment()
         print("-----------------------RECEIPT-----------------------")
         print("_____________________________________________________")
         print("Name        Quantity      Price         Cost     Tax")
@@ -37,7 +40,27 @@ class Order:
             print(item)
             print('')
         print("_____________________________________________________")
-        print(f"Total Cost: ${self.order_cost():.2f}   Total Tax: ${self.order_tax():.2f}")
+        print("Total number of items in order: ", len(self.order))
+        print(f"Subtotal: ${self.order_cost():.2f}, Tax: ${self.order_tax():.2f}")
+        print(f"Total: ${self.order_cost() + self.order_tax():.2f}")
+        print("_____________________________________________________")
+        print("Payment Method: ", payment)
+
+    
+    def choose_payment(self):
+        # Method that allows the user to choose a payment method with error handling
+        while True:
+            for payment_method in Payment:
+                print(f"{payment_method.value}. {payment_method.name}")
+            try:
+                print("Choose Payment Method:")
+
+                payment_choice = int(input())
+                return Payment(payment_choice).payment_method()
+                break
+            
+            except ValueError:
+                print("Please enter a number between 1 and 3.")
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
 def stock_freezer():
@@ -68,7 +91,7 @@ def main_menu(my_order: Order, freezer) -> None:
         print('3: IceCream')
         print('4: Sundae')
         print('5: Total Order So Far')
-        print('Hit enter with no input to print your receipt')
+        print('Hit enter with no input to select payment method and checkout.')
         choice = input('Choose an option: ')
 
         if choice == '1':

@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from freezer import Freezer, Freeze
+from packaging import Packaging
 
-class DessertItem(ABC):
+class DessertItem(ABC, Packaging):
     def __init__(self, name=str):
         self.name = name
         self.tax_percent = 7.25
