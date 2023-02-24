@@ -74,7 +74,17 @@ class Order:
         # Method that orders the items from least to greatest cost
         self.order.sort()
 
+class Customer:
+    # Class that represents a customer of the dessert shop
+    def __init__(self, name = str):
+        self.name: str = name
+        self.order_history: list[Order] = []
+        self.customerid: int = 1
 
+    def add2history(self, order):
+        #add the order to history
+        self.order_history.append(order)
+        return self
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
 def stock_freezer():
@@ -287,23 +297,29 @@ def user_prompt_sundae(my_order, freezer):
         my_order.add_item(sundae_item)
 
 def main():
+    continueorder = True
+    while continueorder:
+        freezer = stock_freezer()
+    
+        my_order = Order()
 
-    freezer = stock_freezer()
-   
-    my_order = Order()
+        try:
+            main_menu(my_order, freezer)
+        except:
+            main_menu(my_order, freezer)
+            
+        my_order.print_order()
 
-    try:
-        main_menu(my_order, freezer)
-    except:
-        main_menu(my_order, freezer)
-        
-    my_order.print_order()
-
-    cost = round(my_order.order_cost(), 2)
-    tax = round(my_order.order_tax(), 2)
-    total_cost = cost + tax
-    make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
-
+        cost = round(my_order.order_cost(), 2)
+        tax = round(my_order.order_tax(), 2)
+        total_cost = cost + tax
+        make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
+        anotherorder = input('Would you like to place another order? (y/n)')
+        if anotherorder == 'Y' or anotherorder == 'y':
+            continueorder = True
+            my_order.order = []
+        else:
+            continueorder = False
 
 
 if __name__ == "__main__":

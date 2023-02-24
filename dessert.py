@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from freezer import Freezer, Freeze
 from packaging import Packaging
+from combine import Combinable
+
 
 class DessertItem(ABC, Packaging):
     def __init__(self, name=str):
@@ -63,7 +65,18 @@ class Candy(DessertItem):
         tax = self.calculate_tax()
         return f"{self.name} ({self.packaging})\n"   \
             f"            {self.candy_weight}lbs         ${self.price_per_pound:.2f}/lbs    ${cost:.2f}   ${tax:.2f}"
+    
+    def can_combine(self, other: "Candy"):
+        if isinstance(other, Candy):
+            if self.name == other.name and self.price_per_pound == other.price_per_pound:
+                return True
+        return False
 
+    def combine(self, other: "Candy") -> "Candy":
+        if self.can_combine(other):
+            return Candy(self.name, self.candy_weight + other.candy_weight, self.price_per_pound)
+        else:
+            raise ValueError("Candy items cannot be combined")
 
 class Cookie(DessertItem, Freeze):
     def __init__(self, name, cookie_quantity=int, price_per_dozen=float):
@@ -80,6 +93,18 @@ class Cookie(DessertItem, Freeze):
         tax = self.calculate_tax()
         return f"{self.name} {self.packaging}\n" \
             f"            {self.cookie_quantity} cookies    ${self.price_per_dozen:.2f}/dozen    ${cost:.2f}    ${tax:.2f}"
+    
+    def can_combine(self, other: "Cookie"):
+        if isinstance(other, Cookie):
+            if self.name == other.name and self.price_per_dozen == other.price_per_dozen:
+                return True
+        return False
+     
+    def combine(self, other: "Cookie") -> "Cookie":
+        if self.can_combine(other):
+            return Cookie(self.name, self.cookie_quantity + other.cookie_quantity, self.price_per_dozen)
+        else:
+            raise ValueError("Cookie items cannot be combined")
 
 class IceCream(DessertItem, Freeze):
     def __init__(self, name, scoop_count=int, price_per_scoop=float):
@@ -96,6 +121,9 @@ class IceCream(DessertItem, Freeze):
         tax = self.calculate_tax()
         return f"{self.name} {self.packaging}\n" \
             f"             {self.scoop_count} scoops     ${self.price_per_scoop:.2f}/scoop    ${cost:.2f}   ${tax:.2f}"
+    
+    def can_combine(self, other: "IceCream"):
+        return False
     
 
 class Sundae(IceCream):

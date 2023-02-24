@@ -355,3 +355,4 @@ def test_cookie_combine():
     mycookie = Cookie('Chocolate Chip', 2, 5.5)
     mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
     assert mycookie.combine(mycookie1) == Cookie('Chocolate Chip', 5, 5.5)
+
