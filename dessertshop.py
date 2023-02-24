@@ -31,6 +31,7 @@ class Order:
 
     def print_order(self):
         payment = self.choose_payment()
+        self.orderitems()
         print("-----------------------RECEIPT-----------------------")
         print("_____________________________________________________")
         print("Name        Quantity      Price         Cost     Tax")
@@ -61,6 +62,10 @@ class Order:
             
             except ValueError:
                 print("Please enter a number between 1 and 3.")
+
+    def orderitems(self):
+        # Method that orders the items from least to greatest cost
+        self.order.sort()
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
 def stock_freezer():

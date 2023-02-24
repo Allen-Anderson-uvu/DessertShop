@@ -188,3 +188,135 @@ def check_thaw():
 
 def test_check_thaw():
     assert check_thaw() == "thawing"
+
+#test the __eq__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_eq():
+    mycandy = Candy('Butterscotch', 1.2, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy == mycandy1
+
+def test_cookie_eq():
+    mycookie = Cookie('Chocolate Chip', 3, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie == mycookie1
+
+def test_icecream_eq():
+    myicecream = IceCream('Vanchoco', 3, .5)
+    myicecream1 = IceCream('Vanchoco', 3, .5)
+    assert myicecream == myicecream1
+
+def test_sundae_eq():
+    mysundae = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    mysundae1 = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    assert mysundae == mysundae1
+
+#Test __lt__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_lt():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy < mycandy1
+
+def test_cookie_lt():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie < mycookie1
+
+def test_icecream_lt():
+    myicecream = IceCream('Vanchoco', 2, .5)
+    myicecream1 = IceCream('Vanchoco', 3, .5)
+    assert myicecream < myicecream1
+
+def test_sundae_lt():
+    mysundae = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
+    mysundae1 = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    assert mysundae < mysundae1
+
+#Test __gt__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_gt():
+    mycandy = Candy('Butterscotch', 1.2, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.1, 2.25)
+    assert mycandy > mycandy1
+
+def test_cookie_gt():
+    mycookie = Cookie('Chocolate Chip', 3, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 2, 5.5)
+    assert mycookie > mycookie1
+
+def test_icecream_gt():
+    myicecream = IceCream('Vanchoco', 3, .5)
+    myicecream1 = IceCream('Vanchoco', 2, .5)
+    assert myicecream > myicecream1
+
+def test_sundae_gt():
+    mysundae = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    mysundae1 = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
+    assert mysundae > mysundae1
+
+#Test __ge__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_ge():
+    mycandy = Candy('Butterscotch', 1.2, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.1, 2.25)
+    assert mycandy >= mycandy1
+
+def test_cookie_ge():
+    mycookie = Cookie('Chocolate Chip', 3, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 2, 5.5)
+    assert mycookie >= mycookie1
+
+def test_icecream_ge():
+    myicecream = IceCream('Vanchoco', 3, .5)
+    myicecream1 = IceCream('Vanchoco', 2, .5)
+    assert myicecream >= myicecream1
+
+def test_sundae_ge():
+    mysundae = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    mysundae1 = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
+    assert mysundae >= mysundae1
+
+#Test __le__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_le():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy <= mycandy1
+
+def test_cookie_le():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie <= mycookie1
+
+def test_icecream_le():
+    myicecream = IceCream('Vanchoco', 2, .5)
+    myicecream1 = IceCream('Vanchoco', 3, .5)
+    assert myicecream <= myicecream1
+
+def test_sundae_le():
+    mysundae = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
+    mysundae1 = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    assert mysundae <= mysundae1
+
+#Test __ne__ method for Candy, Cookie, IceCream, and Sundae
+
+def test_candy_ne():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy != mycandy1
+
+def test_cookie_ne():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie != mycookie1
+
+def test_icecream_ne():
+    myicecream = IceCream('Vanchoco', 2, .5)
+    myicecream1 = IceCream('Vanchoco', 3, .5)
+    assert myicecream != myicecream1
+
+def test_sundae_ne():
+    mysundae = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
+    mysundae1 = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
+    assert mysundae != mysundae1

@@ -17,6 +17,36 @@ class DessertItem(ABC, Packaging):
 
     def calculate_tax(self):
         return round(self.calculate_cost() * (self.tax_percent / 100), 2)
+    
+    def __eq__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() == other.calculate_cost()
+        return NotImplemented
+    
+    def __lt__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() < other.calculate_cost()
+        return NotImplemented
+    
+    def __gt__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() > other.calculate_cost()
+        return NotImplemented
+    
+    def __le__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() <= other.calculate_cost()
+        return NotImplemented
+    
+    def __ge__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() >= other.calculate_cost()
+        return NotImplemented
+    
+    def __ne__(self, other):
+        if isinstance(other, DessertItem):
+            return self.calculate_cost() != other.calculate_cost()
+        return NotImplemented
 
 class Candy(DessertItem):
     def __init__(self, name, candy_weight= float, price_per_pound=float):
