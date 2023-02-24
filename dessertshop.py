@@ -11,6 +11,13 @@ class Order:
         self.order = []
 
     def add_item(self, item):
+        # Method that adds an item to the order
+        for orderitems in self.order:
+            if orderitems.can_combine(item):
+                item = item.combine(orderitems)
+                self.order.remove(orderitems)
+            else: pass
+
         self.order.append(item)
  
     def __len__(self):
@@ -66,6 +73,8 @@ class Order:
     def orderitems(self):
         # Method that orders the items from least to greatest cost
         self.order.sort()
+
+
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
 def stock_freezer():

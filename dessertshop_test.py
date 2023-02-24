@@ -1,6 +1,7 @@
 from dessertshop import *
 from freezer import *
 from dessert import *
+from combine import *
 
 #Test the datatype for DessertItems
 def datatype(x):
@@ -320,3 +321,37 @@ def test_sundae_ne():
     mysundae = Sundae('Hotfudge Sundae', 1, 2.24, 'sprinkles', .74)
     mysundae1 = Sundae('Hotfudge Sundae', 2, 2.24, 'sprinkles', .75)
     assert mysundae != mysundae1
+
+#Test can_combine methods for Candy and Cookie
+
+def test_candy_can_combine():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy.can_combine(mycandy1) == True
+
+def test_cookie_can_combine():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie.can_combine(mycookie1) == True
+
+def test_candy_can_combine_false():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('GummyBears', 1.2, 2.25)
+    assert mycandy.can_combine(mycandy1) == False
+
+def test_cookie_can_combine_false():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Candy('Chocolate Chip', 3, 5.5)
+    assert mycookie.can_combine(mycookie1) == False
+
+#Test combine methods for Candy and Cookie
+
+def test_candy_combine():
+    mycandy = Candy('Butterscotch', 1.1, 2.25)
+    mycandy1 = Candy('Butterscotch', 1.2, 2.25)
+    assert mycandy.combine(mycandy1) == Candy('Butterscotch', 2.3, 2.25)
+
+def test_cookie_combine():
+    mycookie = Cookie('Chocolate Chip', 2, 5.5)
+    mycookie1 = Cookie('Chocolate Chip', 3, 5.5)
+    assert mycookie.combine(mycookie1) == Cookie('Chocolate Chip', 5, 5.5)

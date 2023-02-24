@@ -8,13 +8,14 @@ class Freezer:
         self.my_freezer.append(item)
 
 class Freeze(Protocol):
-    _temperature = "thawing"
+    _temperature: str = "thawing"
 
     def chill(self):
         self._temperature = "chilling"
 
-    def thaw(self):
+    def thaw(self) -> str:
         self._temperature = "thawing"
+        return self._temperature
 
     def get_temperature(self) -> str:
         return getattr(self, '_temperature', 'thawing')
