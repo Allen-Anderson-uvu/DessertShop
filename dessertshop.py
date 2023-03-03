@@ -3,7 +3,7 @@ from dessert import DessertItem, Candy, Cookie, IceCream, Sundae
 from freezer import Freezer, Freeze
 from payment import Payment
 
-
+customer_db: dict[str, object] = {}
 
 class Order:
     # Class that represents an order of items from the dessert shop
@@ -36,7 +36,7 @@ class Order:
 
         return round(total_tax, 2)
 
-    def print_order(self):
+    def print_order(self, Customer):
         payment = self.choose_payment()
         self.orderitems()
         print("-----------------------RECEIPT-----------------------")
@@ -53,6 +53,8 @@ class Order:
         print(f"Total: ${self.order_cost() + self.order_tax():.2f}")
         print("_____________________________________________________")
         print("Payment Method: ", payment)
+        print("_____________________________________________________")
+        print("Customer name: ", Customer.name, "Customer ID: ", Customer.customerid, "Total Orders: ", len(Customer.order_history))
 
     
     def choose_payment(self):
@@ -74,16 +76,23 @@ class Order:
         # Method that orders the items from least to greatest cost
         self.order.sort()
 
+
 class Customer:
     # Class that represents a customer of the dessert shop
     def __init__(self, name = str):
         self.name: str = name
         self.order_history: list[Order] = []
-        self.customerid: int = 1
+        self.customerid: int = 0
+        number_of_orders = len(self.order_history)
 
     def add2history(self, order):
         #add the order to history
         self.order_history.append(order)
+        return self
+    
+    def figure_customerid(self, customer_db):
+        #figure out the customer id
+        self.customerid = len(customer_db)
         return self
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
@@ -307,8 +316,17 @@ def main():
             main_menu(my_order, freezer)
         except:
             main_menu(my_order, freezer)
-            
-        my_order.print_order()
+        
+        customername = input("What is your name? ")
+        new_customer = Customer(customername)
+        if new_customer.name not in customer_db:
+            customer_db[new_customer.name] = new_customer
+            new_customer.figure_customerid(customer_db)
+        else:
+            new_customer = customer_db[new_customer.name]
+        new_customer.add2history(my_order.order)
+         
+        my_order.print_order(new_customer)
 
         cost = round(my_order.order_cost(), 2)
         tax = round(my_order.order_tax(), 2)
