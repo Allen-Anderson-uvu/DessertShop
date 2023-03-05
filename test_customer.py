@@ -14,6 +14,7 @@ def test_customer_class():
 
 #Test that customerid is always unique
 def test_customer_id():
+    #list to store random strings which will be used to generate unique customers
     listostrings = []
     #generate random string
     N = 10
@@ -24,10 +25,11 @@ def test_customer_id():
         listostrings.append(res)
     #list to store customer ids
     customerlist = []
-    #generate 100 customers
-    for i in range(100):
+    #generate 10000 customers
+    for i in range(10000):
         newcustomer = Customer(res)
         newcustomer.figure_customerid(customerlist)
         customerlist.append(newcustomer.customerid)
     #check that all customer ids are unique by taking advantage of the fact that sets cannot contain duplicates
+    #if there are duplicates in the list it will fail to assert because it cannot create the customer list set
     assert len(customerlist) == len(set(customerlist))

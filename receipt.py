@@ -6,12 +6,13 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.styles import ParagraphStyle
 
 
-def make_receipt(order, filename, total_cost, total_tax):
-    data = [("Item", " ","Price", "Tax")]
+def make_receipt(order, filename, total_cost, total_tax, customer):
+    data = [("Item"," ", " "," ", "Price", "Tax")]
     for item in order:
-        item_data = [item.name, " ", "%.2f" % item.calculate_cost(), "%.2f" % item.calculate_tax()]
+        item_data = [item.name, " ","","", "%.2f" % item.calculate_cost(), "%.2f" % item.calculate_tax()]
         data.append(item_data)
     data.append(["Order Price: ", "%.2f" % total_cost, 'Total Cost: ' , "%.2f" % total_tax])
+    data.append(["Customer:", customer.name, 'Customer ID:', customer.customerid, 'Number of Orders:', len(customer.order_history)])
 
     gridlength = len(data) - 2
     
@@ -29,8 +30,8 @@ def make_receipt(order, filename, total_cost, total_tax):
     style = TableStyle(
 	[
 		( "BOX" , ( 0, 0 ), ( -1, -1 ), 1 , colors.black ),
-		( "GRID" , ( 0, 0 ), ( 4, gridlength ), 1 , colors.black ),
-		( "BACKGROUND" , ( 0, 0 ), ( 3, 0 ), colors.gray ),
+		( "GRID" , ( 0, 0 ), (5, gridlength ), 1 , colors.black ),
+		( "BACKGROUND" , ( 0, 0 ), ( 5, 0 ), colors.gray ),
 		( "TEXTCOLOR" , ( 0, 0 ), ( -1, 0 ), colors.whitesmoke ),
 		( "ALIGN" , ( 0, 0 ), ( -1, -1 ), "CENTER" ),
 		( "BACKGROUND" , ( 0 , 1 ) , ( -1 , -1 ), colors.beige ),

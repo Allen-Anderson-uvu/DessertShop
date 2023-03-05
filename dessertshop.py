@@ -331,7 +331,7 @@ def main():
         cost = round(my_order.order_cost(), 2)
         tax = round(my_order.order_tax(), 2)
         total_cost = cost + tax
-        make_receipt(my_order.order, "receipt.pdf", cost, total_cost)
+        make_receipt(my_order.order, "receipt.pdf", cost, total_cost, new_customer)
         anotherorder = input('Would you like to place another order? (y/n)')
         if anotherorder == 'Y' or anotherorder == 'y':
             continueorder = True
