@@ -35,6 +35,11 @@ class Order:
             total_tax += item.calculate_tax()
 
         return round(total_tax, 2)
+    
+    def ordercheck(self):
+        for item in self.order:
+            print(item)
+        return self
 
     def print_order(self, Customer):
         payment = self.choose_payment()
@@ -76,6 +81,9 @@ class Order:
         # Method that orders the items from least to greatest cost
         self.order.sort()
 
+    def __str__(self):
+        return f"{self.order}"
+
 
 class Customer:
     # Class that represents a customer of the dessert shop
@@ -83,7 +91,7 @@ class Customer:
         self.name: str = name
         self.order_history: list[Order] = []
         self.customerid: int = 0
-        number_of_orders = len(self.order_history)
+        
 
     def add2history(self, order):
         #add the order to history
@@ -94,6 +102,9 @@ class Customer:
         #figure out the customer id
         self.customerid = len(customer_db)
         return self
+    
+    def __str__(self):
+        return f"{self.name}, {self.customerid}"
 
 # Stock the freezer with ten of each icecream, cookie, and sundae, call freeze on each item, and return the freezer
 def stock_freezer():
@@ -114,9 +125,11 @@ def stock_freezer():
     return freezer
 
 
-def main_menu(my_order: Order, freezer) -> None:
+def main_menu(my_order: Order, freezer, customer_db) -> None:
+    # Main menu for the dessert shop
     continue_order = True
 
+    # While loop that allows the user to continue ordering items until they are done
     while continue_order == True:
         print('Type the number of the option you would like to choose: ')
         print('1: Candy')
@@ -124,6 +137,7 @@ def main_menu(my_order: Order, freezer) -> None:
         print('3: IceCream')
         print('4: Sundae')
         print('5: Total Order So Far')
+        print('6: Admin Module')
         print('Hit enter with no input to select payment method and checkout.')
         choice = input('Choose an option: ')
 
@@ -138,7 +152,9 @@ def main_menu(my_order: Order, freezer) -> None:
         elif choice == '':
             continue_order = False
         elif choice == '5':
-            print(my_order)
+            my_order.ordercheck()
+        elif choice == '6':
+            user_prompt_admin(customer_db)
         else:
             print("Invalid input, please use the provided interface.")
 
@@ -291,6 +307,8 @@ def user_prompt_sundae(my_order, freezer):
 
     print(f'Adding a {icecream} flavored sundae with {topping} on top'.format(icecream, topping))
 
+
+
     sundae_item = Sundae(icecream, scoops, price, topping, topprice)
     #Take item out of the freezer or makes it from scratch if it is not in the freezer, match topping to ice cream
     sundae_found = False
@@ -305,6 +323,45 @@ def user_prompt_sundae(my_order, freezer):
     if not sundae_found:
         my_order.add_item(sundae_item)
 
+def user_prompt_admin(customer_db):
+    while True:
+        #This function is for admin use
+        print('1. Shop Customer list')
+        print('2. Customer Order History')
+        print('3. Best Customer')
+        print('4. Exit Admin Module')
+
+        admin_choice = input('What would you like to do? ')
+        if admin_choice == '1':
+            admin_prompt_1(customer_db.keys())
+        elif admin_choice == '2':
+            admin_prompt_2(customer_db)
+        elif admin_choice == '3':
+            admin_prompt_3(customer_db)
+        elif admin_choice == '4':
+            break
+
+def admin_prompt_1(customer_db):
+    #This function prints a list of all customers
+    print('Customer List: ')
+    #Prints all the keys in the dictionary
+    for key in customer_db:
+        print(key)
+
+def admin_prompt_2(customer_db):
+    #This function prints a customer's order history
+    customer = input('Which customer would you like to see? ')
+    print('Customer Order History: ')
+    customer_object = customer_db[customer]
+    print(customer_object.order_history)
+
+def admin_prompt_3(customer_db):
+    #This function prints the best customer
+    print('Best Customer:')
+    #Prints the key for the object with the most orders in their history
+    print(max(customer_db, key=lambda x: len(customer_db[x].order_history)))
+
+
 def main():
     continueorder = True
     while continueorder:
@@ -313,16 +370,20 @@ def main():
         my_order = Order()
 
         try:
-            main_menu(my_order, freezer)
+            main_menu(my_order, freezer, customer_db)
         except:
-            main_menu(my_order, freezer)
+            main_menu(my_order, freezer, customer_db)
         
         customername = input("What is your name? ")
         new_customer = Customer(customername)
         if new_customer.name not in customer_db:
+            #If the customer is not in the database, add them
+            #Key is the name, value is the customer object
             customer_db[new_customer.name] = new_customer
             new_customer.figure_customerid(customer_db)
+    
         else:
+            #If the customer is in the database, add to their order history
             new_customer = customer_db[new_customer.name]
         new_customer.add2history(my_order.order)
          
