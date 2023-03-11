@@ -362,6 +362,8 @@ def admin_prompt_3(customer_db):
     #This function prints the best customer
     print('Best Customer:')
     #Prints the key for the object with the most orders in their history
+    #This operates on the assumption that a regular customer may be better than
+    #a high spending customer.
     print(max(customer_db, key=lambda x: len(customer_db[x].order_history)))
 
 
