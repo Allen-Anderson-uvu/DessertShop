@@ -353,7 +353,10 @@ def admin_prompt_2(customer_db):
     customer = input('Which customer would you like to see? ')
     print('Customer Order History: ')
     customer_object = customer_db[customer]
-    print(customer_object.order_history)
+    print(customer + "'s order history:")
+    for items in customer_object.order_history:
+        for item in items:
+            print(item)
 
 def admin_prompt_3(customer_db):
     #This function prints the best customer
